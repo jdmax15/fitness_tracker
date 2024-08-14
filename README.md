@@ -1,0 +1,1 @@
+Some kind of fitness tracker that stores my weight / workouts in a database/.csv file.
