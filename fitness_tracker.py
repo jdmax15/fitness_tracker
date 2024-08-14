@@ -1,5 +1,7 @@
 from datetime import datetime
 import re
+import matplotlib.pyplot as plt
+
 
 HEIGHT = 178
 
@@ -27,15 +29,36 @@ def read_weights_from_file(file_name):
     with open(file_name, 'r') as file:
         for line in file:
             weight_match = re.search(r'(\d+\.\d+|\d+)kg', line)
-            date_match = re.search(r'on (.+)\.', line)
+            date_match = re.search(r'on (\d{2}/\d{2}/\d{4})\.', line)
+            
             if weight_match and date_match:
                 weight = float(weight_match.group(1))
-                date = date_match.group(1)
+                date_str = date_match.group(1)
+                try:
+                    date = datetime.strptime(date_str, "%d/%m/%Y")
+                except ValueError as e:
+                    print(f"Error parsing date: {date_str} - {e}")
+                    continue
+                
                 weights.append(weight)
                 dates.append(date)
-    print(f"Weights {weights}")
-    print(f"Dates: {dates}")
     return dates, weights
+
+def plot_weights(dates, weights):
+    plt.figure(figsize=(10, 6))
+    plt.plot(dates, weights, marker='o', linestyle='-', color='b')
+    plt.title('Weight Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Weight (kg)')
+    
+    plt.gca().xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter("%d/%m/%Y"))
+    plt.gca().xaxis.set_major_locator(plt.matplotlib.dates.DayLocator(interval=1))  # Adjust interval as needed
+
+    plt.grid(True)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.savefig('weight_graph.png')
+    print("Plot saved as 'weight_graph.png")
 
 def main():
 
@@ -46,7 +69,9 @@ def main():
     with open('weights.txt', 'a') as file:
         file.write(weight_str)
 
-    read_weights_from_file('weights.txt')
+    dates, weights = read_weights_from_file('weights.txt')
+
+    plot_weights(dates, weights)
     
     print(weight_str)
 
