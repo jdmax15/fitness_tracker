@@ -1,6 +1,7 @@
 from datetime import datetime
 import re
 import matplotlib.pyplot as plt
+import os
 
 
 HEIGHT = 178
@@ -52,7 +53,7 @@ def plot_weights(dates, weights):
     plt.ylabel('Weight (kg)')
     
     plt.gca().xaxis.set_major_formatter(plt.matplotlib.dates.DateFormatter("%d/%m/%Y"))
-    plt.gca().xaxis.set_major_locator(plt.matplotlib.dates.DayLocator(interval=1))  # Adjust interval as needed
+    plt.gca().xaxis.set_major_locator(plt.matplotlib.dates.DayLocator(interval=2))  # Adjust interval as needed
 
     plt.grid(True)
     plt.xticks(rotation=45)
@@ -60,20 +61,40 @@ def plot_weights(dates, weights):
     plt.savefig('weight_graph.png')
     print("Plot saved as 'weight_graph.png")
 
+def print_menu():
+    print("===============")
+    print("1. Input Weight")
+    print("2. View weight history")
+    print("3. View Graph")
+    print("===============")
+
 def main():
+    while True:
+        print_menu()
+        try:
+            choice = int(input("Input: "))
 
-    date = get_date()
-    weight = get_weight()
-    weight_str = get_weight_str(weight, date)
+            if choice == 1:
+                os.system('clear')
+                date = get_date()
+                weight = get_weight()
+                weight_str = get_weight_str(weight, date)
+                with open('weights.txt', 'a') as file:
+                    file.write(weight_str)
 
-    with open('weights.txt', 'a') as file:
-        file.write(weight_str)
+            elif choice == 2:
+                os.system('clear')
+                with open('weights.txt', 'r') as file:
+                    contents = file.read()
+                    print(contents)
 
-    dates, weights = read_weights_from_file('weights.txt')
+            elif choice == 3:
+                dates, weights = read_weights_from_file('weights.txt')
+                plot_weights(dates, weights)              
+                print(weight_str)
 
-    plot_weights(dates, weights)
-    
-    print(weight_str)
+        except ValueError:
+            print("Please enter a number only")
 
 if __name__ == "__main__":
     main()
