@@ -90,6 +90,7 @@ def print_menu():
     print("===============")
 
 def main():
+    # My height.
     HEIGHT = 1.78
     
     while True:
