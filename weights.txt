@@ -1,5 +1,4 @@
-Your weight was 99.5kg on 28/07/2024.
-Your weight was 98.5kg on 31/07/2024.
-Your weight was 97.5kg on 01/08/2024.
-Your weight was 97.0kg on 04/08/2024.
-Your weight was 96.5kg on 10/08/2024.
+Your weight was 99.5kg on 05/08/2024. Your BMI was 31.40.
+Your weight was 98.5kg on 09/08/2024. Your BMI was 31.10.
+Your weight was 97.5kg on 13/08/2024. Your BMI was 30.80.
+Your weight was 96.5kg on 16/08/2024. Your BMI was 30.46.
